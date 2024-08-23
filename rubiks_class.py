@@ -1,3 +1,5 @@
+import sys
+
 class Rubiks_Cube:
     def __init__(
         self,
@@ -12,10 +14,14 @@ class Rubiks_Cube:
         self.magnet_strengh = magnet_strengh
         self.interior = interior
         self.adjusting_mechanism = adjusting_mechanism
-        
         self.cube = []
-
         self.create_cube()
+
+        moves = sys.argv
+        moves.pop(0)
+        
+        new_moves = self.replace_moves(moves)
+        self.do_moves(new_moves)
 
         self.print_cube()
 
@@ -28,6 +34,19 @@ class Rubiks_Cube:
             for i in range(self.size * self.size):
                 list.append(colors[self.cube.index(list)])
 
+    def replace_moves(self,moves):
+        new_moves = []
+        for move in moves:
+            if len(move) == 1:
+                new_moves.append(move)
+            elif move.find("2") == -1:
+                new_moves.append(move[0])
+                new_moves.append(move[0])
+                new_moves.append(move[0])
+            elif move.find("2") != -1:
+                new_moves.append(move[0])
+                new_moves.append(move[0])
+        return new_moves
 
     def u_move(self):
         slicer = slice(3)
@@ -48,7 +67,6 @@ class Rubiks_Cube:
         self.cube[5] = self.side_rotater(self.cube[5])
 
     def r_move(self):
-        print (self)
         holder = self.cube[0].copy()
         self.cube[0] = self.helper(self.cube[0],self.cube[1],2,5,8,2,5,8)
         self.cube[1] = self.helper(self.cube[1],self.cube[5],2,5,8,2,5,8)
@@ -58,9 +76,9 @@ class Rubiks_Cube:
 
     def l_move(self):
         holder = self.cube[0].copy()
-        self.cube[0] = self.helper(self.cube[0],self.cube[3],0,3,6,2,5,8)        
+        self.cube[0] = self.helper(self.cube[0],self.cube[3],0,3,6,8,5,2)        
         self.cube[3] = self.helper(self.cube[3],self.cube[5],2,5,8,0,3,6)
-        self.cube[5] = self.helper(self.cube[5],self.cube[1],0,3,6,2,5,8)
+        self.cube[5] = self.helper(self.cube[5],self.cube[1],0,3,6,0,3,6)
         self.cube[1] = self.helper(self.cube[1],holder,0,3,6,0,3,6)
         self.cube[4] = self.side_rotater(self.cube[4])
 
@@ -90,6 +108,21 @@ class Rubiks_Cube:
         postmove = [premove[6],premove[3],premove[0],premove[7],premove[4],premove[1],premove[8],premove[5],premove[2]]
         return postmove
 
+    def do_moves(self,moves):
+        for move in moves:
+            if move == "r":
+                self.r_move()
+            elif move == "l":
+                self.l_move()
+            elif move == "u":
+                self.u_move()
+            elif move == "d":
+                self.d_move()
+            elif move == "f":
+                self.f_move()
+            elif move == "b":
+                self.b_move()
+
     def print_cube(self):
         top = slice(3)
         middle = slice(3,6)
@@ -112,5 +145,3 @@ class Rubiks_Cube:
 
 
 Dayan_Yuhong_Pro =  Rubiks_Cube(3, True, 2, "Maglev", "Hand")
-
-# print(Dayan_Yuhong_Pro.cube)
