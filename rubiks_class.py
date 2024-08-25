@@ -1,6 +1,7 @@
 import sys
+import random
 
-class Rubiks_Cube:
+class RubiksCube():
     def __init__(
         self,
         size=3,
@@ -16,14 +17,7 @@ class Rubiks_Cube:
         self.adjusting_mechanism = adjusting_mechanism
         self.cube = []
         self.create_cube()
-
-        moves = sys.argv
-        moves.pop(0)
-        
-        new_moves = self.replace_moves(moves)
-        self.do_moves(new_moves)
-
-        self.print_cube()
+        self.choose_function()
 
 
     def create_cube(self):
@@ -33,6 +27,35 @@ class Rubiks_Cube:
         for list in self.cube:
             for i in range(self.size * self.size):
                 list.append(colors[self.cube.index(list)])
+
+    def choose_function(self):
+        moves = sys.argv
+        try:
+            moves.pop(0)
+        except IndexError:
+            ...
+        if moves == ["scramble"]:
+            scrambled = self.scramble()
+            new_moves = self.replace_moves(scrambled)
+            self.do_moves(new_moves)
+            print(f"SCRAMBLE --> {" ".join(scrambled).replace("p","\'")}")
+        elif "".join(moves).isalnum():
+            new_moves = self.replace_moves(moves)
+            self.do_moves(new_moves)
+
+    def scramble(self):
+        move_list = [["R","Rp","R2"],["L","Lp","L2"],["U","Up","U2"],["D","Dp","D2"],["F","Fp","F2"],["B","Bp","B2"]]
+        moves = []
+        i = random.randint(0,5)
+        old_num = i
+        for _ in range(20):
+            new_num = random.randint(0,5)
+            while new_num == i or new_num == old_num:
+                new_num = random.randint(0,5)
+            old_num = i
+            i = new_num
+            moves.append(random.choice(move_list[i]))
+        return moves
 
     def replace_moves(self,moves):
         new_moves = []
@@ -70,14 +93,14 @@ class Rubiks_Cube:
         holder = self.cube[0].copy()
         self.cube[0] = self.helper(self.cube[0],self.cube[1],2,5,8,2,5,8)
         self.cube[1] = self.helper(self.cube[1],self.cube[5],2,5,8,2,5,8)
-        self.cube[5] = self.helper(self.cube[5],self.cube[3],2,5,8,2,5,8)  
+        self.cube[5] = self.helper(self.cube[5],self.cube[3],2,5,8,6,3,0)  
         self.cube[3] = self.helper(self.cube[3],holder,0,3,6,8,5,2)
         self.cube[2] = self.side_rotater(self.cube[2])
 
     def l_move(self):
         holder = self.cube[0].copy()
         self.cube[0] = self.helper(self.cube[0],self.cube[3],0,3,6,8,5,2)        
-        self.cube[3] = self.helper(self.cube[3],self.cube[5],2,5,8,0,3,6)
+        self.cube[3] = self.helper(self.cube[3],self.cube[5],2,5,8,6,3,0)
         self.cube[5] = self.helper(self.cube[5],self.cube[1],0,3,6,0,3,6)
         self.cube[1] = self.helper(self.cube[1],holder,0,3,6,0,3,6)
         self.cube[4] = self.side_rotater(self.cube[4])
@@ -110,6 +133,7 @@ class Rubiks_Cube:
 
     def do_moves(self,moves):
         for move in moves:
+            move = move.lower()
             if move == "r":
                 self.r_move()
             elif move == "l":
@@ -128,20 +152,24 @@ class Rubiks_Cube:
         middle = slice(3,6)
         bottom = slice(6,9)
         
-        print(f"""
-                                {self.cube[0][top]}
-                                {self.cube[0][middle]}
-                                {self.cube[0][bottom]}
+        layout = f"""
+                    {"".join(self.cube[0][top])}
+                    {"".join(self.cube[0][middle])}
+                    {"".join(self.cube[0][bottom])}
 
-            {self.cube[4][top]}  {self.cube[1][top]}  {self.cube[2][top]}  {self.cube[3][top]}
-            {self.cube[4][middle]}  {self.cube[1][middle]}  {self.cube[2][middle]}  {self.cube[3][middle]}
-            {self.cube[4][bottom]}  {self.cube[1][bottom]}  {self.cube[2][bottom]}  {self.cube[3][bottom]}
+            {"".join(self.cube[4][top])}  {"".join(self.cube[1][top])}  {"".join(self.cube[2][top])}  {"".join(self.cube[3][top])}
+            {"".join(self.cube[4][middle])}  {"".join(self.cube[1][middle])}  {"".join(self.cube[2][middle])}  {"".join(self.cube[3][middle])}
+            {"".join(self.cube[4][bottom])}  {"".join(self.cube[1][bottom])}  {"".join(self.cube[2][bottom])}  {"".join(self.cube[3][bottom])}
 
-                                {self.cube[5][top]}
-                                {self.cube[5][middle]}
-                                {self.cube[5][bottom]}
+                    {"".join(self.cube[5][top])}
+                    {"".join(self.cube[5][middle])}
+                    {"".join(self.cube[5][bottom])}
         
-        """)
+        """
+
+        print(layout)
 
 
-Dayan_Yuhong_Pro =  Rubiks_Cube(3, True, 2, "Maglev", "Hand")
+if __name__ == '__main__':
+    DayanYuhongPro = RubiksCube()
+    DayanYuhongPro.print_cube()
