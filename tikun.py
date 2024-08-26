@@ -171,7 +171,7 @@ def how_much_time(parshios,start_day):
         parshios[i]["days to learn"] = days_to_learn.days
         try:
             if days_to_learn.days > 0:
-                lines_per_day = np.round_(parshios[i]["lines"] / days_to_learn.days, decimals = 1)
+                lines_per_day = np.round(parshios[i]["lines"] / days_to_learn.days, decimals = 1)
             else:
                 lines_per_day = "too many"
             parshios[i]["lines per day"] = lines_per_day
@@ -237,7 +237,7 @@ def updated_lines(which_parsha,parshios,lines_known,start_line):
     parsha_dict["lines known"] = int(lines_known)
     lines_to_learn = int(list_o_parshios[which_parsha][0]) - int(lines_known)
     days_left = parsha_dict["days to learn"] - int(review_days)
-    lines_per_day = np.round_(lines_to_learn / days_left, decimals = 1)
+    lines_per_day = np.round(lines_to_learn / days_left, decimals = 1)
     parsha_dict["lines per day"] = lines_per_day
     what_to_print = f"\nTo learn {parsha_dict['name']} you will have to learn {parsha_dict['lines per day']} lines per day."
 

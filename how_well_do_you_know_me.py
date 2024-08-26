@@ -32,7 +32,7 @@ def questions():
         correct_answers += 1
 
     guess = input("What is my middle name?")
-    if guess.lower() == "uziel":
+    if guess.lower().strip() == "uziel":
         correct_answers += 1
 
     return correct_answers
