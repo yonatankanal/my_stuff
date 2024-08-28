@@ -48,7 +48,7 @@ class RubiksCube():
             if __name__ == "__main__":
                 self.print_cube()
             self.inspection()
-            self.timer()
+            self.timer(scrambled)
         elif "".join(moves).isalnum():
             new_moves = self.replace_moves(moves)
             self.do_moves(new_moves)
@@ -183,6 +183,7 @@ class RubiksCube():
 
     def inspection(self):
         start = input("\nPress enter to start inspection timer.")
+        print("")
         number = 0
         while True:
             if number <= 15:
@@ -200,9 +201,9 @@ class RubiksCube():
     def check_for_input(self):
         return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
     
-    def timer(self):
+    def timer(self,scrambled):
         tic = datetime.now()
-        print(f"Press enter to finish: ")
+        print(f"\nPress enter to finish:\n")
 
         seconds = 0
         while True:
@@ -224,7 +225,7 @@ class RubiksCube():
         print(f"\r{what_to_print}")
 
         with open("Rubiks_times.csv", "a") as file:
-            file.write(f"{date.today()},{what_to_print}\n")
+            file.write(f"{what_to_print}   ---   {date.today()} ---   {' '.join(scrambled).replace("p","\'")}\n")
 
         
 
