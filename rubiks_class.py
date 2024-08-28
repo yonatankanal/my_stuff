@@ -1,5 +1,11 @@
 import sys
 import random
+import datetime
+import time
+import select
+from datetime import datetime
+from datetime import date
+
 
 class RubiksCube():
     def __init__(
@@ -38,10 +44,16 @@ class RubiksCube():
             scrambled = self.scramble()
             new_moves = self.replace_moves(scrambled)
             self.do_moves(new_moves)
-            print(f"SCRAMBLE --> {" ".join(scrambled).replace("p","\'")}")
+            print(f"\nSCRAMBLE --> {" ".join(scrambled).replace("p","\'")}")
+            if __name__ == "__main__":
+                self.print_cube()
+            self.inspection()
+            self.timer()
         elif "".join(moves).isalnum():
             new_moves = self.replace_moves(moves)
             self.do_moves(new_moves)
+            if __name__ == "__main__":
+                self.print_cube()
 
     def scramble(self):
         move_list = [["R","Rp","R2"],["L","Lp","L2"],["U","Up","U2"],["D","Dp","D2"],["F","Fp","F2"],["B","Bp","B2"]]
@@ -169,7 +181,53 @@ class RubiksCube():
 
         print(layout)
 
+    def inspection(self):
+        start = input("\nPress enter to start inspection timer.")
+        number = 0
+        while True:
+            if number <= 15:
+                print(f"\r{number}", end="")
+            elif number <= 17:
+                print(f"\r+{number-15}", end="")
+            else:
+                print(f"\r+{number-15} (DNF)", end="")
+            time.sleep(1)
+            number += 1
+            if self.check_for_input():
+                input()
+                break
+
+    def check_for_input(self):
+        return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
+    
+    def timer(self):
+        tic = datetime.now()
+        print(f"Press enter to finish: ")
+
+        seconds = 0
+        while True:
+            print(f"\r{round(seconds,3)}", end="")
+            time.sleep(0.1)
+            seconds += 0.1
+            if self.check_for_input():
+                toc = datetime.now()
+                break
+
+        duration = toc - tic
+
+        minutes = int(duration.total_seconds() // 60)
+        seconds = str(duration.seconds).zfill(2)
+        microseconds = round(duration.microseconds / 1000)
+
+        what_to_print = f"{int(minutes)}:{seconds}.{microseconds}"
+
+        print(f"\r{what_to_print}")
+
+        with open("Rubiks_times.csv", "a") as file:
+            file.write(f"{date.today()},{what_to_print}\n")
+
+        
+
 
 if __name__ == '__main__':
     DayanYuhongPro = RubiksCube()
-    DayanYuhongPro.print_cube()
