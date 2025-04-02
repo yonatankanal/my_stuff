@@ -1,0 +1,14 @@
+             Dates                           Level II Fieildwork Site Practice setting_1  Last Name  First Name
+0    1/6 - 3/28/25                           UPMC Acute Care Hospital         Acute care        NaN         NaN
+1    1/6 - 3/28/25                      UPMC Hospital - General Rehab    Inpatient rehab        NaN         NaN
+2    1/6 - 3/28/25                           Children's Therapy Place         Pediatrics        NaN         NaN
+3    1/6 - 3/28/25                          UPMC RI Clinic Outpatient         Outpatient        NaN         NaN
+4    1/6 - 3/28/25                                This Rehab Hospital              Rehab        NaN         NaN
+..             ...                                                ...                ...        ...         ...
+123            NaN  UPMC RI Cranberry Outpatient - Neuro/Low visio...         Outpatient        NaN         NaN
+124            NaN                                     UPMC Passavant         Acute care        NaN         NaN
+125            NaN                   Ivy Rehab/Positive Steps Therapy         Pediatrics        NaN         NaN
+126            NaN                         UPMC RI Oakland Outpatient         Outpatient        NaN         NaN
+127            NaN                                     UPMC Shadyside         Acute care        NaN         NaN
+
+[128 rows x 5 columns]

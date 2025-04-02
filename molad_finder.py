@@ -77,7 +77,7 @@ def start_and_end():
 
         # Verify the first date
         if start:
-            if _ := re.fullmatch(r"^[1-9][0-9]{0,3},[0-9]|(1[0123])$",start):
+            if _ := re.fullmatch(r"^[1-9][0-9]{0,3},([0-9]|(1[0-3]))$",start):
                 bad_start = False
             else:
                 print("Please input a date in the proper format.")
@@ -91,7 +91,7 @@ def start_and_end():
         # Get end date
         end = input("Input the end year and month (year,month number) --> ")
         if end:
-            if _ := re.fullmatch(r"^[1-9][0-9]{0,3},[0-9]|(1[0123])$",end):
+            if _ := re.fullmatch(r"^[1-9][0-9]{0,3},([0-9]|(1[0-3]))$",end):
                 bad_end = False
             else:
                 print("Please input a date in the proper format.")
@@ -149,7 +149,6 @@ def find_all_molads(dates):
         i += 1
     # Turn the molad into hours, minutes, and seconds
     dates = numbers_to_times(dates)
-    pprint.pprint(dates)
     return dates
 
 
@@ -184,7 +183,6 @@ def year_to_letters(dates):
         letter_year = ""
         letter_year = hebrew_date(number_year)
         date["Letter Year"] = letter_year
-    print("This is what dates looks like after adding letter year.")
 
 
 def hebrew_date(year: int):
@@ -202,7 +200,7 @@ def hebrew_date(year: int):
 
 def number_to_day(dates):
     numbers_and_days = {0:"Shabbos",1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday"}
-    for i in dates:f
+    for i in dates:
         i["Molad"][0] = numbers_and_days[i["Molad"][0]]
 
     return dates
@@ -213,9 +211,9 @@ def print_all_molads(dates):
     Meubar_date_number_to_hebrew_name = {1:"תשרי", 2:"חשון", 3:"כסלו", 4:"טבת", 5:"שבט", 6:"אדר א", 7:"אדר ב", 8:"ניסן", 9:"אייר", 10:"סיון", 11:"תמוז", 12:"אב",13:"אלול"}
     for i in dates:
         if months_in_year(i["Year"]) == 12:
-            print(f"The Molad for {Peshuta_date_number_to_hebrew_name[i['Month']]} {i['Letter Year']} is {i['Molad'][0]} at {i['Molad'][1]}:{str(i['Molad'][2]).zfill(2)} {i['Meridiem']} and {i['Molad'][3]} chalakim.")
+            print(f"The Molad for {i['Letter Year']} {Peshuta_date_number_to_hebrew_name[i['Month']]} is {i['Molad'][0]} at {i['Molad'][1]}:{str(i['Molad'][2]).zfill(2)} {i['Meridiem']} and {i['Molad'][3]} chalakim.")
         elif months_in_year(i["Year"]) == 13:
-            print(f"The Molad for {Meubar_date_number_to_hebrew_name[i['Month']]} {i['Letter Year']} is {i['Molad'][0]} at {i['Molad'][1]}:{str(i['Molad'][2]).zfill(2)} {i['Meridiem']} and {i['Molad'][3]} chalakim.")
+            print(f"The Molad for {i['Letter Year'][::-1]} {Meubar_date_number_to_hebrew_name[i['Month']][::-1]} is {i['Molad'][0]} at {i['Molad'][1]}:{str(i['Molad'][2]).zfill(2)} {i['Meridiem']} and {i['Molad'][3]} chalakim.")
 
 
 
